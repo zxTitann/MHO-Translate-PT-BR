@@ -1,0 +1,236 @@
+>>>>>>>>>>>>>> Problemas de Capitalização <<<<<<<<<<<<<<<<<<<<
+
+******Descrição:****** 
+Palavras que parecem ser palavras-chave internas do jogo (geralmente em lowercase ou camelCase) estão tendo sua capitalização alterada pelo tradutor.
+
+******Padrão Observado:****** 
+Parece afetar palavras únicas ou curtas que não são frases completas.
+
+**Exemplos:**
+
+Original:  "#powername#$displayname$#/powername# Minions last forever when summoned"
+Traduzido:  "#PowerName#$ DisplayName $#/PowerName#Minions dura para sempre quando convocado"
+Observado: Aqui temos um exemplo onde foi REMOVIDO um espaço na tradução como no "powername# Minions" e foi traduzido para "PowerName#Minions" 
+
+Original: "onpowerstartpower.summonEntity.appliesPowers0"
+Traduzido: "OnPowerStartPower.sumtensority.AppliciesPowers0"
+
+Original: "Let's get out of here! Thanks, $AvatarName$."
+Traduzido: "Vamos sair daqui!Obrigado, $ AVATARNAME $."
+
+Original: "OmegaTest"
+Traduzido: "Omegatest"
+
+Original: "#powername#$powerreference0.powername$#/powername# can be activated to increase Damage, Critical Hit Chance, and Brutal Strike Chance for 2-12s"
+Traduzido: "#PowerName#$ PowerReference0.PowerName $#/PowerName#pode ser ativado para aumentar os danos, o acaso crítico e a chance de greve brutal para 2-12s"
+
+Original: "combopower"
+Traduzido: "ComboPower"
+
+Original: "powerstart"
+Traduzido: "PowerStart"
+
+Original: "onpowerstartpower.condition0"
+Traduzido: "OnPowerStartPower.condition0"
+
+Original: "condition0"
+Traduzido: "condição0"
+Observado: Aqui eu não sei o contexto deste texto entao nao sei dizer se foi correto traduzir ou não. Por via de duvidas, vamos manter esse exemplo como sua versão original para evitar problemas futuros que podem ser alterados caso não haja problema.
+
+original: "missileCollidePower.condition0"
+traduzido: "missilecollidePower.condition0"
+
+Original: "Robbie Reyes TestingONLY"
+Traduzido: "Robbie Reyes testingonly"
+
+Original: "combopower.condition0"
+Traduzido: "ComboPower.condition0"
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+>>>>>>>>>>>>>>>>>>>>> Problemas com Caracteres Especiais <<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:****** 
+Espaços estão sendo adicionados ao redor de caracteres especiais que provavelmente são usados para programação ou formatação no jogo.
+
+******Padrão Observado:****** 
+Ocorre principalmente com o símbolo "%" seguido de outras letras.
+
+**Exemplos:**
+Original: "%statusexemplo"
+Traduzido: "% status exemplo"
+
+Original: "%outrostatus"
+Traduzido: "% outrostatus"
+
+Original: "[$ChatChannel$] [$PlayerName$]: $MessageText$"
+Traduzido: "[$ Chatchannel $] [$ Playername $]: $ MessageText $"
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+>>>>>>>>>>>>>>>>>> Tradução Indesejada de Palavras-Chave do Jogo <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+******Descrição:****** 
+Palavras em inglês que parecem ser termos técnicos do jogo ou nomes próprios estão sendo traduzidas para português, quando deveriam permanecer em inglês.
+
+******Padrão Observado:****** 
+Palavras isoladas ou em frases curtas que podem ter um significado específico no contexto do jogo.
+
+**Exemplos:**
+
+Original: "Polarity Shift"
+Traduzido:  "Mudança de polaridade"
+
+Original: "Less Damage Taken:"
+Traduzido: "Menos danos causados:"
+
+Original: "Traje Armadura de Vibranium do Pantera Negra"
+Traduzido: "Pantera preta Vibranium do Pantera Armadura"
+Observado: aqui eu nao sei nem em qual categoria eu deveria colocar poís há erros na tradução literal, talvez seja somente um problema de termos de palavra chave do jogo, certo.
+
+Original: "Winter's Grasp"
+Traduzido: "GRASS do inverno"
+
+Original: "#powername#$powerreference0.powername$#/powername# can be activated to increase Damage, Critical Hit Chance, and Brutal Strike Chance for 2-12s"
+Traduzido: "#PowerName#$ PowerReference0.PowerName $#/PowerName#pode ser ativado para aumentar os danos, o acaso crítico e a chance de greve brutal para 2-12s"
+Observado: Queremos manter o termo, Dano, Chance de Golpe Crítico e Chance de Golpe Brutal. A tradução foi feita incorretamente para "Acaso critico" "Chance de Greve Brutal" e "Danos".
+
+Original: "Silver Bullet"
+Traduzido: "Bala de prata"
+Observado: Aqui está um termo do jogo que queremos manter por conveniencia.
+
+Original: "Figures"
+Traduzido: "Figuras"
+
+Original: "Artifact"
+Traduzido: "Artefato"
+
+Original: "Bulletproof. Figures... \n—Punisher"
+Traduzido: "Bulletproof.Figuras ...\n—Punisher"
+
+Original: #emphasis
+Traduzido: #ênfase
+
+Original: #Real Name:#/emphasis# Elizabeth
+Traduzido: #Nome real:#/ênfase#Elizabeth
+
+Original: #emphasis#Created By:#/emphasis#
+Traduzido: #ênfase#identidade:#/ênfase#segredo
+
+Original: #emphasis#First Appearance:#/emphasis# Captain Britain #8 (December 1976)"
+Traduzido: #ênfase#Primeira aparição:#/ênfase#Capitão Grã -Bretanha#8 (dezembro de 1976)"
+Observado: Coloquei a linha inteira de string pois há algo que quero deixar ressalvas sobre nomes de personagens. Talvez eu queira manter personagens como "Spider-Man" ou "Captain Britain" com seus nomes em ingles, mas isso vai depender muito do que a comunidade pedir. Por enquanto irei deixa-los em ingles só para deixar claro para voce!
+
+Original: "Hawkeye S.H.I.E.L.D. Costume"
+Traduzido: "Hawkeye S.H.I.E.L.D.Fantasia"
+Observado: Vamos manter "Costume" para evitar  quebra de termos utilizados pela comunidade do jogo.
+
+Original: "Zoo Scientist Controller"
+Traduzido: "Controlador de cientistas do zoológico"
+Observado: Aqui parece ser o texto de algo importante no jogo pois o original está com todas as letras iniciais em maiusculo, já a tradução está somente com a primeira letra em maiusculo. Talvez seja o nome de uma habilidade? Vamos manter todas as primeiras letras em maiusculo para esse caso, abrindo analises futuras para outros casos semelhantes onde há letras maiusculas ou minusculas entre traduções. Quero manter em maiusculo o que ja era maiusculo e minusculo o que ja era minusculo.
+
+Original: "Hand Spirit Warrior Defeated!"
+Traduzido: "Guerreiro do Espírito da mão derrotado!"
+Observado: Mesmo caso anterior, manter as letras maiusculas e minusculas entre as duas traduções.
+
+Original: "Cooldown" 
+Traduzido: "Esfriar"
+Observado: Cooldown é um termo utilizado nos jogos para identificar o tempo de recarga de alguma habilidade ou evento. Vamos manter esse termo nas traduções para uma convenção de termo usado entre os jogadores. 
+
+original: "missileCollidePower.condition0"
+traduzido: "missilecollidePower.condition0"
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+>>>>>>>>>>>>>>>Problemas com Formatação<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:*****
+Há espaços irregulares ou outras alterações na formatação que não deveriam ocorrer.
+
+*****Padrão Observado:***** 
+Espaços extras aparecendo em lugares inesperados.
+
+**Exemplos:**
+Original: "Doctor Octopus is moving to steal a yet-to-be-identified item from Kingpin. We need you to intercept him at Kingpin's Warehouse, which is hidden behind the Blood Rose nightclub."
+Traduzido:  "O Doutor Octopus está se movendo para roubar um item ainda a ser identificado do Kingpin.Precisamos que você o interceptem no armazém do Kingpin, que está escondido atrás da boate Rose Rose."
+
+
+Original: "At times, the dollar worth of just one of my outfits alone could feed and house an impoverished family for an entire year. But a suit of adamantium? Even I'm too modest for that.\n—The Kingpin"
+Traduzido:  "Às vezes, o dólar no valor de apenas uma das minhas roupas sozinha podia alimentar e abrigar uma família empobrecida por um ano inteiro.Mas um terno de Adamantium?Até eu sou muito modesto para isso.\n- o chefão"
+
+Original: "Mostra a mensagem em qualquer canal que você estiver. "
+traduzido: "Mostra a mensagem em qualquer canal que você estiver."
+
+Original: "Bulletproof. Figures...\n—Punisher"
+Traduzido: "Bulletproof.Figuras ...\n—Punisher"
+
+Original: "É um look clássico...  Grace Kelly, Jackie O, Madame Hidra. \n- Fera"
+Traduzido: "É um look clássico...  Grace Kelly, Jackie O, Madame Hidra.\n- Fera"
+
+Original: #Real Name:#/emphasis# Elizabeth
+Traduzido: #Nome real:#/ênfase#Elizabeth
+
+Original: #emphasis#First Appearance:#/emphasis# Captain Britain #8 (December 1976)"
+Traduzido: #ênfase#Primeira aparição:#/ênfase#Capitão Grã -Bretanha#8 (dezembro de 1976)"
+Observado: a formatação em questão seria o "Britain #8 " e foi traduzido incorretamente para "Bretanha#8 " com espaços adicionais indesejados.
+
+Original: "... Isso faz você mais perigoso. \n—Justiceiro"
+Traduzido: "... Isso faz você mais perigoso.\n—Justiceiro"
+Observado: Novamente a exclusão do espaço após o . como exemplo do . \n—Justiceiro" perdendo seu espaçamento antes do \n. 
+
+Original: "Jessica mocks nearby enemies, provoking them to attack her."
+Traduzido: "Jessica zomba dos inimigos próximos, provocando -os a atacá -la."
+Observado: Acho que seria bom utilizar a notação "Provocando-os" junto ao em vez de "Provocando -os" assim fica mais bonito aos olhos, não acha?
+
+Original: "I will dismantle you for scrap and fashion you into a chair."
+traduzido: "Vou desmontá -lo por sucata e transformá -lo em uma cadeira."
+Observado: Mesmo caso da notação "exemplo-os" ao em vez de "exemplo -os"
+
+Original: "Ah, diacho. O que eu devia falar se me parassem mesmo?"
+Traduzido: "Ah, diacho.O que eu devia falar se me parassem mesmo?"
+
+Original: "Hawkeye S.H.I.E.L.D. Costume"
+Traduzido: "Hawkeye S.H.I.E.L.D.Fantasia"
+
+>>>>>>>>>>>>>>>>> Observações de Casos a Parte <<<<<<<<<<<<<<<<<<<<<<<<<
+Observado: \"Psi-Knife\"
+Descrição: Eu não sei o que significa esses \"exemplo\" entao deixaremos como um ponto a ser observado e de preferencia nao alterar essas partes do texto de nenhuma maneira até descobrir-mos o que essa sintaxe faz. Eu ja encontrei outros locais onde há o mesmo padrao de barras invertidas e duplas aspas.
+
+Observado: "Emblema Excelsiors" para "Emblema se destaca" Acredito que Excelsiors é mais especifico para um item em questão. Vamos manter a palavra "Excelsiors" para analises futuras pois eu não sei o contexto desta string.
+
+Original: "Magik"
+Traduzido: "Magico"
+Observado: Magik é uma personagem do jogo ou universo marvel. Não queremos traduzir nomes de personagens do jogo por enquanto.
+
+Original: "condition0.proceffect0.condition0"
+Traduzido: "condition0.proceffect0.condition0"
+Observado: aqui está um exemplo de como deveria ser mantida as traduções quando há um codigo dentro da string referenciando um outro local do jogo referente a informações de talvez status de condições no jogo como queimaduras, stun e afins. 
+
+Original: "#waypointheader#Castelo Doom#/waypointheader#    #waypointlabel#LOCALIZAÇÃO:#/waypointlabel# #waypointlevels#Latveria#/waypointlevels##waypointlabel#   NÍVEL ALCANCE:#/waypointlabel##waypointlevels#45-55#/waypointlevels#\n#waypointtext#Viole o fortificado castelo de Victor Von Doom e coloque um fim na tirania do mal.#/waypointtext# Ao longo do caminho, desmantele as legiões de guardas robos, desative os sistemas de segurança, e derrote os tenentes."
+Traduzido: "#waypointheader#Castelo Doom#/waypointheader#    #waypointlabel#LOCALIZAÇÃO:#/waypointlabel# #waypointlevels#Latveria#/waypointlevels##waypointlabel#   NÍVEL ALCANCE:#/waypointlabel##waypointlevels#45-55#/waypointlevels#\n#waypointtext#Viole o fortificado castelo de Victor Von Doom e coloque um fim na tirania do mal.#/waypointtext# Ao longo do caminho, desmantele as legiões de guardas robos, desative os sistemas de segurança, e derrote os tenentes."
+Observado: outro exemplo de como deve ser mantida a tradução em casos onde há diversas "indexações" ou "Referencias" do jogo em relação ao seu codigo de desenvolvimento.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Tradução Ruim<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:*****
+Traduções irregulares em alguns termos utilizados em jogo
+
+*****Padrão Observado:***** 
+É uma tradução literal, nao sei se há uma maneira de resolver isso.
+
+**Exemplos:**
+
+Original: "Enter Hand Tower"
+traduzido: "Digite a torre da mão"
+Observado: Deveria ser "Entre na Torre da Mão" ou "Entre na Hand Tower" 
+
+Original: "Encounter 1 (Action Trigger)"
+Traduzido: "Encontro 1 (gatilho de ação)"
+Observado: O correto seria "Encontrar" nao seria? Action Trigger talvez seja a referencia de uma tecla de atalho do jogo (Como, "Aperte F1 para realizar tal ação).
+
