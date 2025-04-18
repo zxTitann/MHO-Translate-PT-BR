@@ -1,0 +1,47 @@
+>>>>>>>>>>>>>> Problemas de Capitalização <<<<<<<<<<<<<<<<<<<<
+
+******Descrição:****** 
+Palavras que parecem ser palavras-chave internas do jogo (geralmente em lowercase ou camelCase) estão tendo sua capitalização alterada pelo tradutor.
+
+******Padrão Observado:****** 
+Parece afetar palavras únicas ou curtas que não são frases completas.
+
+**Exemplos:**
+
+Original:  "#powername#$displayname$#/powername# Minions last forever when summoned"
+Traduzido:  "#PowerName#$ DisplayName $#/PowerName#Minions dura para sempre quando convocado"
+Observado: Aqui temos um exemplo onde foi REMOVIDO um espaço na tradução como no "powername# Minions" e foi traduzido para "PowerName#Minions" 
+
+Original: "onpowerstartpower.summonEntity.appliesPowers0"
+Traduzido: "OnPowerStartPower.sumtensority.AppliciesPowers0"
+
+Original: "Let's get out of here! Thanks, $AvatarName$."
+Traduzido: "Vamos sair daqui!Obrigado, $ AVATARNAME $."
+
+Original: "OmegaTest"
+Traduzido: "Omegatest"
+
+Original: "#powername#$powerreference0.powername$#/powername# can be activated to increase Damage, Critical Hit Chance, and Brutal Strike Chance for 2-12s"
+Traduzido: "#PowerName#$ PowerReference0.PowerName $#/PowerName#pode ser ativado para aumentar os danos, o acaso crítico e a chance de greve brutal para 2-12s"
+
+Original: "combopower"
+Traduzido: "ComboPower"
+
+Original: "powerstart"
+Traduzido: "PowerStart"
+
+Original: "onpowerstartpower.condition0"
+Traduzido: "OnPowerStartPower.condition0"
+
+Original: "condition0"
+Traduzido: "condição0"
+Observado: Aqui eu não sei o contexto deste texto entao nao sei dizer se foi correto traduzir ou não. Por via de duvidas, vamos manter esse exemplo como sua versão original para evitar problemas futuros que podem ser alterados caso não haja problema.
+
+original: "missileCollidePower.condition0"
+traduzido: "missilecollidePower.condition0"
+
+Original: "Robbie Reyes TestingONLY"
+Traduzido: "Robbie Reyes testingonly"
+
+Original: "combopower.condition0"
+Traduzido: "ComboPower.condition0"

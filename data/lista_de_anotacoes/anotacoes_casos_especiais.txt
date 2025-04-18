@@ -1,0 +1,19 @@
+>>>>>>>>>>>>>>>>> Observações de Casos Especiais <<<<<<<<<<<<<<<<<<<<<<<<<
+
+Observado: \"Psi-Knife\"
+Descrição: Eu não sei o que significa esses \"exemplo\" entao deixaremos como um ponto a ser observado e de preferencia nao alterar essas partes do texto de nenhuma maneira até descobrir-mos o que essa sintaxe faz. Eu ja encontrei outros locais onde há o mesmo padrao de barras invertidas e duplas aspas.
+
+Observado: "Emblema Excelsiors" para "Emblema se destaca" Acredito que Excelsiors é mais especifico para um item em questão. Vamos manter a palavra "Excelsiors" para analises futuras pois eu não sei o contexto desta string.
+
+Original: "Magik"
+Traduzido: "Magico"
+Observado: Magik é uma personagem do jogo ou universo marvel. Não queremos traduzir nomes de personagens do jogo por enquanto.
+
+Original: "condition0.proceffect0.condition0"
+Traduzido: "condition0.proceffect0.condition0"
+Observado: aqui está um exemplo de como deveria ser mantida as traduções quando há um codigo dentro da string referenciando um outro local do jogo referente a informações de talvez status de condições no jogo como queimaduras, stun e afins. 
+
+Original: "#waypointheader#Castelo Doom#/waypointheader#    #waypointlabel#LOCALIZAÇÃO:#/waypointlabel# #waypointlevels#Latveria#/waypointlevels##waypointlabel#   NÍVEL ALCANCE:#/waypointlabel##waypointlevels#45-55#/waypointlevels#\n#waypointtext#Viole o fortificado castelo de Victor Von Doom e coloque um fim na tirania do mal.#/waypointtext# Ao longo do caminho, desmantele as legiões de guardas robos, desative os sistemas de segurança, e derrote os tenentes."
+Traduzido: "#waypointheader#Castelo Doom#/waypointheader#    #waypointlabel#LOCALIZAÇÃO:#/waypointlabel# #waypointlevels#Latveria#/waypointlevels##waypointlabel#   NÍVEL ALCANCE:#/waypointlabel##waypointlevels#45-55#/waypointlevels#\n#waypointtext#Viole o fortificado castelo de Victor Von Doom e coloque um fim na tirania do mal.#/waypointtext# Ao longo do caminho, desmantele as legiões de guardas robos, desative os sistemas de segurança, e derrote os tenentes."
+Observado: outro exemplo de como deve ser mantida a tradução em casos onde há diversas "indexações" ou "Referencias" do jogo em relação ao seu codigo de desenvolvimento.
+

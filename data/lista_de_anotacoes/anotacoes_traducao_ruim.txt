@@ -1,0 +1,18 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Tradução Ruim<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:*****
+Traduções irregulares em alguns termos utilizados em jogo
+
+*****Padrão Observado:***** 
+É uma tradução literal, nao sei se há uma maneira de resolver isso.
+
+**Exemplos:**
+
+Original: "Enter Hand Tower"
+traduzido: "Digite a torre da mão"
+Observado: Deveria ser "Entre na Torre da Mão" ou "Entre na Hand Tower" 
+
+Original: "Encounter 1 (Action Trigger)"
+Traduzido: "Encontro 1 (gatilho de ação)"
+Observado: O correto seria "Encontrar" nao seria? Action Trigger talvez seja a referencia de uma tecla de atalho do jogo (Como, "Aperte F1 para realizar tal ação).
+

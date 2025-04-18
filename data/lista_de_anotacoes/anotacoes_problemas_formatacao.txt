@@ -1,0 +1,49 @@
+>>>>>>>>>>>>>>>Problemas com Formatação<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:*****
+Há espaços irregulares ou outras alterações na formatação que não deveriam ocorrer.
+
+*****Padrão Observado:***** 
+Espaços extras aparecendo em lugares inesperados.
+
+**Exemplos:**
+Original: "Doctor Octopus is moving to steal a yet-to-be-identified item from Kingpin. We need you to intercept him at Kingpin's Warehouse, which is hidden behind the Blood Rose nightclub."
+Traduzido:  "O Doutor Octopus está se movendo para roubar um item ainda a ser identificado do Kingpin.Precisamos que você o interceptem no armazém do Kingpin, que está escondido atrás da boate Rose Rose."
+
+
+Original: "At times, the dollar worth of just one of my outfits alone could feed and house an impoverished family for an entire year. But a suit of adamantium? Even I'm too modest for that.\n—The Kingpin"
+Traduzido:  "Às vezes, o dólar no valor de apenas uma das minhas roupas sozinha podia alimentar e abrigar uma família empobrecida por um ano inteiro.Mas um terno de Adamantium?Até eu sou muito modesto para isso.\n- o chefão"
+
+Original: "Mostra a mensagem em qualquer canal que você estiver. "
+traduzido: "Mostra a mensagem em qualquer canal que você estiver."
+
+Original: "Bulletproof. Figures...\n—Punisher"
+Traduzido: "Bulletproof.Figuras ...\n—Punisher"
+
+Original: "É um look clássico...  Grace Kelly, Jackie O, Madame Hidra. \n- Fera"
+Traduzido: "É um look clássico...  Grace Kelly, Jackie O, Madame Hidra.\n- Fera"
+
+Original: #Real Name:#/emphasis# Elizabeth
+Traduzido: #Nome real:#/ênfase#Elizabeth
+
+Original: #emphasis#First Appearance:#/emphasis# Captain Britain #8 (December 1976)"
+Traduzido: #ênfase#Primeira aparição:#/ênfase#Capitão Grã -Bretanha#8 (dezembro de 1976)"
+Observado: a formatação em questão seria o "Britain #8 " e foi traduzido incorretamente para "Bretanha#8 " com espaços adicionais indesejados.
+
+Original: "... Isso faz você mais perigoso. \n—Justiceiro"
+Traduzido: "... Isso faz você mais perigoso.\n—Justiceiro"
+Observado: Novamente a exclusão do espaço após o . como exemplo do . \n—Justiceiro" perdendo seu espaçamento antes do \n. 
+
+Original: "Jessica mocks nearby enemies, provoking them to attack her."
+Traduzido: "Jessica zomba dos inimigos próximos, provocando -os a atacá -la."
+Observado: Acho que seria bom utilizar a notação "Provocando-os" junto ao em vez de "Provocando -os" assim fica mais bonito aos olhos, não acha?
+
+Original: "I will dismantle you for scrap and fashion you into a chair."
+traduzido: "Vou desmontá -lo por sucata e transformá -lo em uma cadeira."
+Observado: Mesmo caso da notação "exemplo-os" ao em vez de "exemplo -os"
+
+Original: "Ah, diacho. O que eu devia falar se me parassem mesmo?"
+Traduzido: "Ah, diacho.O que eu devia falar se me parassem mesmo?"
+
+Original: "Hawkeye S.H.I.E.L.D. Costume"
+Traduzido: "Hawkeye S.H.I.E.L.D.Fantasia"

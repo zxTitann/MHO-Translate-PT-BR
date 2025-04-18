@@ -1,0 +1,71 @@
+>>>>>>>>>>>>>>>>>> Tradução Indesejada de Palavras-Chave do Jogo <<<<<<<<<<<<<<<<<<<<<<<<<<
+
+******Descrição:****** 
+Palavras em inglês que parecem ser termos técnicos do jogo ou nomes próprios estão sendo traduzidas para português, quando deveriam permanecer em inglês.
+
+******Padrão Observado:****** 
+Palavras isoladas ou em frases curtas que podem ter um significado específico no contexto do jogo.
+
+**Exemplos:**
+
+Original: "Polarity Shift"
+Traduzido:  "Mudança de polaridade"
+
+Original: "Less Damage Taken:"
+Traduzido: "Menos danos causados:"
+
+Original: "Traje Armadura de Vibranium do Pantera Negra"
+Traduzido: "Pantera preta Vibranium do Pantera Armadura"
+Observado: aqui eu nao sei nem em qual categoria eu deveria colocar poís há erros na tradução literal, talvez seja somente um problema de termos de palavra chave do jogo, certo.
+
+Original: "Winter's Grasp"
+Traduzido: "GRASS do inverno"
+
+Original: "#powername#$powerreference0.powername$#/powername# can be activated to increase Damage, Critical Hit Chance, and Brutal Strike Chance for 2-12s"
+Traduzido: "#PowerName#$ PowerReference0.PowerName $#/PowerName#pode ser ativado para aumentar os danos, o acaso crítico e a chance de greve brutal para 2-12s"
+Observado: Queremos manter o termo, Dano, Chance de Golpe Crítico e Chance de Golpe Brutal. A tradução foi feita incorretamente para "Acaso critico" "Chance de Greve Brutal" e "Danos".
+
+Original: "Silver Bullet"
+Traduzido: "Bala de prata"
+Observado: Aqui está um termo do jogo que queremos manter por conveniencia.
+
+Original: "Figures"
+Traduzido: "Figuras"
+
+Original: "Artifact"
+Traduzido: "Artefato"
+
+Original: "Bulletproof. Figures... \n—Punisher"
+Traduzido: "Bulletproof.Figuras ...\n—Punisher"
+
+Original: #emphasis
+Traduzido: #ênfase
+
+Original: #Real Name:#/emphasis# Elizabeth
+Traduzido: #Nome real:#/ênfase#Elizabeth
+
+Original: #emphasis#Created By:#/emphasis#
+Traduzido: #ênfase#identidade:#/ênfase#segredo
+
+Original: #emphasis#First Appearance:#/emphasis# Captain Britain #8 (December 1976)"
+Traduzido: #ênfase#Primeira aparição:#/ênfase#Capitão Grã -Bretanha#8 (dezembro de 1976)"
+Observado: Coloquei a linha inteira de string pois há algo que quero deixar ressalvas sobre nomes de personagens. Talvez eu queira manter personagens como "Spider-Man" ou "Captain Britain" com seus nomes em ingles, mas isso vai depender muito do que a comunidade pedir. Por enquanto irei deixa-los em ingles só para deixar claro para voce!
+
+Original: "Hawkeye S.H.I.E.L.D. Costume"
+Traduzido: "Hawkeye S.H.I.E.L.D.Fantasia"
+Observado: Vamos manter "Costume" para evitar  quebra de termos utilizados pela comunidade do jogo.
+
+Original: "Zoo Scientist Controller"
+Traduzido: "Controlador de cientistas do zoológico"
+Observado: Aqui parece ser o texto de algo importante no jogo pois o original está com todas as letras iniciais em maiusculo, já a tradução está somente com a primeira letra em maiusculo. Talvez seja o nome de uma habilidade? Vamos manter todas as primeiras letras em maiusculo para esse caso, abrindo analises futuras para outros casos semelhantes onde há letras maiusculas ou minusculas entre traduções. Quero manter em maiusculo o que ja era maiusculo e minusculo o que ja era minusculo.
+
+Original: "Hand Spirit Warrior Defeated!"
+Traduzido: "Guerreiro do Espírito da mão derrotado!"
+Observado: Mesmo caso anterior, manter as letras maiusculas e minusculas entre as duas traduções.
+
+Original: "Cooldown" 
+Traduzido: "Esfriar"
+Observado: Cooldown é um termo utilizado nos jogos para identificar o tempo de recarga de alguma habilidade ou evento. Vamos manter esse termo nas traduções para uma convenção de termo usado entre os jogadores. 
+
+original: "missileCollidePower.condition0"
+traduzido: "missilecollidePower.condition0"

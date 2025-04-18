@@ -1,0 +1,17 @@
+>>>>>>>>>>>>>>>>>>>>> Problemas com Caracteres Especiais <<<<<<<<<<<<<<<<<<<<<<<
+
+*****Descrição:****** 
+Espaços estão sendo adicionados ao redor de caracteres especiais que provavelmente são usados para programação ou formatação no jogo.
+
+******Padrão Observado:****** 
+Ocorre principalmente com o símbolo "%" seguido de outras letras.
+
+**Exemplos:**
+Original: "%statusexemplo"
+Traduzido: "% status exemplo"
+
+Original: "%outrostatus"
+Traduzido: "% outrostatus"
+
+Original: "[$ChatChannel$] [$PlayerName$]: $MessageText$"
+Traduzido: "[$ Chatchannel $] [$ Playername $]: $ MessageText $"

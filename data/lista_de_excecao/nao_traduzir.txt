@@ -1,0 +1,37 @@
+Polarity Shift
+Less Damage Taken
+Artifact
+Magik
+Cooldown
+#emphasis#
+#/emphasis#
+Real Name
+First Appearance
+Captain Britain
+Hawkeye S.H.I.E.L.D. Costume (talvez só "Costume"?)
+Zoo Scientist Controller
+Hand Spirit Warrior Defeated
+Psi-Knife
+Emblema Excelsiors
+condition0
+proceffect0
+#waypointheader#
+#/waypointheader#
+#waypointlabel#
+#/waypointlabel#
+#waypointlevels#
+#/waypointlevels#
+#waypointtext#
+#/waypointtext#
+Latveria
+Victor Von Doom
+Damage
+Critical Hit Chance
+Brutal Strike Chance
+
+Silver Bullet
+(Action Trigger)
+#gray
+#Bandwidth
+#/gray#
+Phalanx

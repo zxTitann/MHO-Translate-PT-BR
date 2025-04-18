@@ -1,0 +1,10 @@
+powername
+displayname
+combopower
+powerstart
+condition0
+powerreference0
+missileCollidePower
+onpowerstartpower
+Omegatest
+Robbie Reyes TestingONLY
