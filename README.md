@@ -4,6 +4,18 @@
 
 O *MHO-Translate-PT-BR* é uma solução avançada de localização desenvolvida em Python para aprimorar significativamente a experiência em português brasileiro do jogo *Marvel Heroes Omega*. Este projeto vai além de uma simples tradução, implementando um sistema inteligente que preserva a integridade técnica dos arquivos do jogo enquanto melhora a qualidade linguística.
 
+## Requisitos
+
+- Python 3.11 (Site oficial: https://www.python.org/)
+- Biblioteca `googletrans==4.0.0-rc1` (utilize `pip install googletrans==4.0.0-rc1`)
+
+## Como Usar.
+
+1. Coloque os arquivos originais (JSON) do jogo em uma pasta com o nome `data/arquivos_originais_json/`.
+2. Execute o script `mho_translate_pt_br.py` para criar os arquivos traduzidos em `data/arquivos_traduzidos_json/`.
+3. Os arquivos traduzidos serão salvos em `data/arquivos_traduzidos_json/`.
+
+
 ## Problemas na Tradução Original do Jogo
 
 - **Tradução incompleta/inconsistente**:
