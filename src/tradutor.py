@@ -45,8 +45,8 @@ def corrigir_capitalizacao(texto_processado, lista_termos_originais):
             # Uma forma mais segura é reconstruir a string: parte antes + termo original + parte depois
 
             texto_corrigido = (texto_corrigido[:indice_encontrado] +
-                               termo_original + # <-- Substitui pela capitalização CORRETA da lista!
-                               texto_corrigido[fim_encontrado:])
+            termo_original + # <-- Substitui pela capitalização CORRETA da lista!
+            texto_corrigido[fim_encontrado:])
 
             # Atualiza o texto_corrigido_lower e o indice_busca para continuar procurando DEPOIS da substituição
             # Precisamos recalcular o lower do texto_corrigido pois ele mudou
@@ -86,20 +86,20 @@ try:
             if 'String' in value: # <-- Primeiro check: Este item tem a chave 'String'?
                 texto_original = value['String'] # <-- Pega o texto original (este está no lugar certo)
 
-                 # === BLOCO DE EXCLUSÃO COMENTADO (OK PARA O TESTE) ===
-                 # Esta é a lógica original para excluir textos que contêm termos da lista nao_traduzir.txt.
-                 # Mantemos ele comentado por enquanto para testar as correções de formatacao/capitalizacao.
-                 # manter_original = False
-                 # for termo in termos_nao_traduzir:
-                 #     if termo in texto_original: # <-- Esta é a linha do filtro agressivo
-                 #         manter_original = True
-                 #         break # Se encontramos um termo, podemos parar de verificar para esta linha
-                 # === FIM DO BLOCO COMENTADO ===
+                # === BLOCO DE EXCLUSÃO COMENTADO (OK PARA O TESTE) ===
+                # Esta é a lógica original para excluir textos que contêm termos da lista nao_traduzir.txt.
+                # Mantemos ele comentado por enquanto para testar as correções de formatacao/capitalizacao.
+                # manter_original = False
+                # for termo in termos_nao_traduzir:
+                #     if termo in texto_original: # <-- Esta é a linha do filtro agressivo
+                #         manter_original = True
+                #         break # Se encontramos um termo, podemos parar de verificar para esta linha
+                # === FIM DO BLOCO COMENTADO ===
 
-                 # === NOVO BLOCO SIMPLIFICADO PARA O TESTE ===
-                 # ESTE bloco SUBSTITUI o if manter_original: e o elif/else original
-                 # Ele está no MESMO NÍVEL de indentação que o bloco de exclusão COMENTADO estava
-                 # E ESTÁ DENTRO DO if 'String' in value: E DENTRO DO LOOP FOR!
+                # === NOVO BLOCO SIMPLIFICADO PARA O TESTE ===
+                # ESTE bloco SUBSTITUI o if manter_original: e o elif/else original
+                # Ele está no MESMO NÍVEL de indentação que o bloco de exclusão COMENTADO estava
+                # E ESTÁ DENTRO DO if 'String' in value: E DENTRO DO LOOP FOR!
                 if any(char.isalpha() for char in texto_original): # Se o texto original (que tem a chave 'String') tiver letras...
                     texto_traduzido = traduzir_string(texto_original) # <-- CHAMA A FUNÇÃO DE TRADUÇÃO BLINDADA!
                     texto_traduzido_corrigido = corrigir_capitalizacao(texto_traduzido, termos_capitalizacao_original)
