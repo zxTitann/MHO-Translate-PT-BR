@@ -32,9 +32,6 @@ O script possui duas categorias de problemas:
   - Tiveram sua formatação alterada (como espaçamentos extras e/ou excluidos).
   - Perderam a capitalização original, o que pode impactar o reconhecimento pelo codigo do jogo.
 
-- **Problemas de Capitalização**:  
-  Termos que dependem de capitalização específica para reconhecimento pelo jogo tiveram essa formatação alterada.
-
 ## Solução Proposta
 
 Para abordar esses desafios, o script:
