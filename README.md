@@ -8,13 +8,13 @@ O *MHO-Translate-PT-BR* é uma solução avançada de localização desenvolvida
 
 - **Tradução incompleta/inconsistente**:
 
-- Mistura de idiomas em diálogos e descrições
+  - Mistura de idiomas em diálogos e descrições
 
-- Textos originais em inglês mantidos em elementos críticos
+  - Textos originais em inglês mantidos em elementos críticos
 
-- Falta de padronização em termos do universo Marvel
+  - Falta de padronização em termos do universo Marvel
 
-- **Tradução incompleta**:  
+  - **Tradução incompleta**:  
   Muitos textos não foram traduzidos totalmente, contendo diversos trechos com ingles e portugues misturados em uma unica caixa de dialogo, alem de descrições de itens, nomes de itens, habilidades e outras partes importantes.
 
 ## Problemas na Implementação do Script de Tradução
