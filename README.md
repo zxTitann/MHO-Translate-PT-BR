@@ -1,27 +1,36 @@
-# MHO-Translate-PT-BR
+# MHO-Translate-PT-BR-Ferramenta de Tradução Automatizada para Marvel Heroes Omega
 
-## Descrição e Propósito
+## Visão Geral
 
-Este projeto consiste em um script desenvolvido em Python para automatizar e aprimorar o processo de tradução dos arquivos de texto do jogo *Marvel Heroes Omega (MHO)* para o Português Brasileiro (PT-BR).
+O *MHO-Translate-PT-BR* é uma solução avançada de localização desenvolvida em Python para aprimorar significativamente a experiência em português brasileiro do jogo *Marvel Heroes Omega*. Este projeto vai além de uma simples tradução, implementando um sistema inteligente que preserva a integridade técnica dos arquivos do jogo enquanto melhora a qualidade linguística.
 
-## Problemas na Tradução Original
+## Problemas na Tradução Original do Jogo
 
-O principal motivo para a criação deste projeto reside nos problemas e inconsistências encontrados na tradução original do jogo:
+- **Tradução incompleta/inconsistente**:
 
-- **Tradução Literal ou Sem Sentido**:  
-  Muitos textos foram traduzidos de forma muito literal ou perderam o sentido no contexto do jogo.
+- Mistura de idiomas em diálogos e descrições
 
-- **Termos Técnicos e Referências Internas**:  
-  Termos cruciais para o jogo (nomes de habilidades, status, itens, referências de código como `$param1$`, `#emphasis#`, `condition0`) foram:
-  - Traduzidos indevidamente
-  - Tiveram sua formatação alterada (como espaços extras)
-  - Perderam a capitalização original, o que pode impactar o reconhecimento pelo jogo
+- Textos originais em inglês mantidos em elementos críticos
+
+- Falta de padronização em termos do universo Marvel
+
+- **Tradução incompleta**:  
+  Muitos textos não foram traduzidos totalmente, contendo diversos trechos com ingles e portugues misturados em uma unica caixa de dialogo, alem de descrições de itens, nomes de itens, habilidades e outras partes importantes.
+
+## Problemas na Implementação do Script de Tradução
+
+O script possui duas categorias de problemas:
 
 - **Problemas de Formatação Geral**:  
-  Inconsistências como:
-  - Espaços extras indevidos
-  - Quebras de linha afetadas
-  - Outros problemas que prejudicam a leitura e apresentação
+  Inconsistências encontradas atualmente no script de tradução como:
+  - Espaços extras indevidos.
+  - Quebras de linha afetadas.
+
+- **Problemas de Tradução Indesejada**:
+  - Termos cruciais para o jogo (nomes de habilidades, status, itens, referências internas de código como `$param1$`, `#emphasis#`, `condition0`) foram:
+  - Traduzidos indevidamente.
+  - Tiveram sua formatação alterada (como espaçamentos extras e/ou excluidos).
+  - Perderam a capitalização original, o que pode impactar o reconhecimento pelo codigo do jogo.
 
 - **Problemas de Capitalização**:  
   Termos que dependem de capitalização específica para reconhecimento pelo jogo tiveram essa formatação alterada.
