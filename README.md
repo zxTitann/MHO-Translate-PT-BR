@@ -32,15 +32,35 @@ O script possui duas categorias de problemas:
   - Tiveram sua formatação alterada (como espaçamentos extras e/ou excluidos).
   - Perderam a capitalização original, o que pode impactar o reconhecimento pelo codigo do jogo.
 
+## No Processo de Tradução Automatizada
+
+- Probelmas Técnicos:
+Original: "Dano aumentado em $value1$%"  
+Traduzido: "Dano aumentado em $ valor1 $%"  # Formatação corrompida
+
+Original: "#HeroName#" 
+Traduzido: "#NomeDoHeroi#"  # Referência interna traduzida
+
+- Desafios Especificos:
+  - Preservar placeholders (`$param1$`, `#emphasis#`, `condition0`)
+  - Manutenção da capitalização de termos técnicos
+  - Controle de espaçamento e quebras de linha
+  - Identificação e proteção de nomes próprios (heróis, vilões, locais)
+
 ## Solução Proposta
 
 Para abordar esses desafios, o script:
 
 1. Utiliza a API do Google Translate (via biblioteca `googletrans`) como base para tradução inicial
-2. Implementa lógicas customizadas para:
-   - Identificar e corrigir automaticamente os problemas específicos
+2. Criar uma lista de diversos termos utilizados no filtro de tradução
+3. Implementa lógicas customizadas para:
    - Preservar referências internas e formatação original
    - Manter a capitalização correta de termos técnicos
+   - Controlar espaçamentos e quebras de linha
+   - Identificação e proteção de nomes próprios (como nome de herois, locais e termos da comunidade)
+4. Pós-processamento:
+   - Validar e corrigir a tradução
+   - Correção de capitalização
 
 ## Objetivo Final
 
