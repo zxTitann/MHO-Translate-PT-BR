@@ -77,6 +77,7 @@ Para abordar esses desafios, o script:
 ## Objetivo Final
 
 Gerar arquivos de texto traduzidos para PT-BR que sejam:
+
 ✅ Compreensíveis  
 ✅ Precisos  
 ✅ Consistentes  
