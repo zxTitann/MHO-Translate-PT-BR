@@ -242,7 +242,7 @@ TRANSLATION_ERROR_PATTERNS = {
     },
     
     "dollar_variables": {
-        "original_pattern": r"{{\$([A-Za-z0-9_]+)}}",
+        "original_pattern": r"\{\{\$([A-Za-z0-9_]+)\}\}",
         "error_patterns": [
             r"{{\$([A-Za-zÀ-ÿ][A-Za-z0-9À-ÿ_]*)}}",  # Caracteres acentuados
             r"{{\$([^}]*(?:Do|Da|De|Dos|Das)[^}]*)}}",  # Tradução de estrutura
