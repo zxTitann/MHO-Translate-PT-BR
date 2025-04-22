@@ -258,7 +258,7 @@ TRANSLATION_ERROR_PATTERNS = {
     },
     
     "html_tags": {
-        "original_pattern": r"<([a-zA-Z]+)([^>]*)>",
+        "original_pattern": r"<[/]?[a-zA-Z]+[^>]*>",
         "error_patterns": [
             r"<([a-zA-Z]+)\s+([a-zA-ZÀ-ÿ]+)=",  # Atributos com acentos
             r"<([a-zA-Z]+)\s+[^>]*(?:alinhamento|sabor|fonte)[^>]*>",  # Atributos traduzidos
@@ -266,7 +266,7 @@ TRANSLATION_ERROR_PATTERNS = {
     },
     
     "dot_properties": {
-        "original_pattern": r"([A-Za-z]+)\.([A-Za-z]+)",
+        "original_pattern": r"[a-zA-Z0-9_\.]+",
         "error_patterns": [
             r"([A-Za-zÀ-ÿ]+)\.([A-Za-z]+)",  # Primeiro componente com acentos
             r"([A-Za-z]+)\.([A-Za-zÀ-ÿ]+)",  # Segundo componente com acentos

@@ -1,222 +1,236 @@
 import json
-from googletrans import Translator
-import time
+import re
+import os # Vamos precisar de os para manipular caminhos
 
-def carregar_lista(Nao_traduzir):
-    with open(Nao_traduzir, 'r', encoding='utf-8') as arquivo:
-        return [linha.strip() for linha in arquivo]
+# --- NOSSAS REGRAS DE PROTEÇÃO (A PLANTA!) ---
 
-#Listas de exceção    
-termos_nao_traduzir = carregar_lista('data/lista_de_excecao/nao_traduzir.txt')
-termos_capitalizacao_original = carregar_lista("data/lista_de_excecao/nao_alterar_capitalizacao.txt")
+# 1. Strings Exatas para Proteger (Prioridade 1)
+# Lista de strings literais que NUNCA devem ser traduzidas.
+# Você vai popular e refinar esta lista com suas anotações de nao_traduzir.txt e outras que encontrar.
+EXACT_STRINGS_TO_PROTECT = [
+    "Cooldown",
+    "Magik",
+    "Red", # Exemplo da sua string complexa, se for um termo não traduzível
+    "Green", # Exemplo da sua string complexa
+    "Fisk Tower", # Exemplo da sua string complexa
+    "Psi-Knife",
+    "Emblema Excelsiors",
+    "condition0",
+    "proceffect0",
+    "#waypointheader#", # Já pego pelo regex, mas pode estar aqui para garantia ou clareza
+    "#/waypointheader#", # Já pego pelo regex
+    # ... adicione mais strings exatas da sua lista nao_traduzir.txt e anotações
+]
 
-#Arquivos originais para traduzir
-nome_arquivo_entrada = 'data/arquivos_originais_json/por.all_3FFFFFFFFFFFFFFF.string.json'
+# 2. REGEX de Proteção Refinados (Prioridade 2 - Aplicar após as Strings Exatas)
+# Lista de dicionários, onde cada dicionário tem um nome e o padrão regex refinado.
+# A ORDEM nesta lista PODE importar (do mais específico/complexo para o mais geral),
+# especialmente se os padrões puderem se sobrepor.
+REGEX_PATTERNS_TO_PROTECT = [
+    # Endereços de E-mail (Nosso novo REGEX!)
+    {"name": "email", "pattern": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"},
+    # internal_links ([[...]]) - REGEX OK
+    {"name": "internal_link", "pattern": r"\[\[([^\]]+)\]\]"},
+    # html_tags (<tag>...</tag>, <tag/>) - REGEX REFINADO
+    {"name": "html_tag", "pattern": r"<[/]?[a-zA-Z]+[^>]*>"},
+    # hashtag_patterns (tudo entre # e #, incluindo #/...#) - REGEX REFINADO
+    {"name": "hashtag_pattern", "pattern": r"#[^#]+#"},
+    # dollar_variables ({{$...}}) - REGEX REFINADO com escape
+    {"name": "dollar_variable", "pattern": r"\{\{\$([A-Za-z0-9_]+)\}\}"},
+    # $dot.properties$ ($prop.sub.prop$) - REGEX REFINADO (Aplicar ANTES de dot_properties)
+    {"name": "dollar_dot_property", "pattern": r"\$[a-zA-Z0-9_\.]+\$"},
+    # dot_properties (prop.sub.prop) - REGEX REFINADO (Aplicar DEPOIS de $dot.properties$)
+    {"name": "dot_property", "pattern": r"[a-zA-Z0-9_\.]+"},
+    # level_rank (Lvl #, Rank #) - REGEX OK
+    {"name": "level_rank", "pattern": r"(L|Lvl|Level|Rank)\s*(\d+)"},
+    # tokens (@token) - REGEX OK (Aplicar por último nos padrões com @, DEPOIS do email)
+    {"name": "token", "pattern": r"@([A-Za-z0-9_]+)"},
+    # ... adicione outros regex de proteção que identificar
 
-translator = Translator()
+    # NOTA: O padrão de comandos '/' puro (r"/([a-zA-Z]+)") foi deixado de fora por enquanto,
+    # pois parece que '/' aparece mais em contextos de tags (#/...) ou outros padrões que já estamos pegando.
+    # A gente pode revisitar se encontrar casos de "/comando" puros não protegidos.
+]
 
-def aplicar_capitalizacao_original_preservada(texto_traduzido_ou_original, mapa_termos_originais_preservar):
+# --- FUNÇÃO PARA CARREGAR O JSON ---
+
+def carregar_json_do_txt(caminho_arquivo):
     """
-    Usa o mapa de termos originais para restaurar a capitalização exata original
-    desses termos no texto traduzido ou original.
+    Lê um arquivo de texto que contém conteúdo JSON e carrega como um dicionário Python.
     """
-    texto_final = texto_traduzido_ou_original # Começa com o texto processado pela API
+    try:
+        with open(caminho_arquivo, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        print(f"Arquivo JSON carregado com sucesso de: {caminho_arquivo}")
+        return data
+    except FileNotFoundError:
+        print(f"Erro: Arquivo não encontrado em '{caminho_arquivo}'")
+        return None
+    except json.JSONDecodeError:
+        print(f"Erro: Falha ao decodificar JSON. Verifique o formato do arquivo '{caminho_arquivo}'.")
+        return None
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado ao carregar o arquivo: {e}")
+        return None
 
-    # Itera pelo dicionário de termos originais que devemos preservar a capitalização
-    # A chave é a versão lowercase do termo, o valor é a versão EXATA original
-    for termo_lower, termo_original_exato in mapa_termos_originais_preservar.items():
-        # Precisamos encontrar onde a versão lowercase do termo original (a chave do dicionário)
-        # aparece no texto final (que pode ser traduzido e bagunçado).
-        texto_final_lower = texto_final.lower() # Busca case-insensitive
-        indice_busca = 0
+# --- FUNÇÃO PARA APLICAR A PROTEÇÃO (FASE 1) ---
 
-        while True:
-            # Tenta encontrar a próxima ocorrência do termo (ignorando capitalização)
-            indice_encontrado = texto_final_lower.find(termo_lower, indice_busca)
-
-            if indice_encontrado == -1:
-                break # Termo não encontrado ou sem mais ocorrências
-
-            # Se encontrou, pega o fim da ocorrência na versão lowercase
-            fim_encontrado_lower = indice_encontrado + len(termo_lower)
-
-            # Substituímos a parte encontrada no texto_final (que tem a capitalização bagunçada)
-            # pela versão EXATA ORIGINAL que está guardada no nosso dicionário!
-            texto_final = (texto_final[:indice_encontrado] + # Pega a parte ANTES
-                           termo_original_exato + # <-- Substitui pela capitalização EXATA ORIGINAL guardada!
-                           texto_final[fim_encontrado_lower:]) # Pega a parte DEPOIS
-
-            # Atualiza para continuar buscando: recalcula o lower e ajusta o índice
-            texto_final_lower = texto_final.lower() # O texto_final mudou, recalcula o lower
-            indice_busca = indice_encontrado + len(termo_original_exato) # Busca continua após a substituição (usando o tamanho do termo original EXATO)
-
-
-    return texto_final # Retorna o texto com a capitalização original dos termos preservada!
-
-
-def corrigir_capitalizacao(texto_processado, lista_termos_originais):
-    #Corrige a capitalização de termos conhecidos no texto processado
-    #substituindo-os pela sua versão original da lista.
-
-    texto_corrigido = texto_processado
-
-    for termo_original in lista_termos_originais:
-        # Precisamos encontrar onde esse termo (em qualquer capitalização) aparece no texto.
-        # Uma forma é procurar pela versão em lowercase do termo na versão em lowercase do texto.
-        termo_original_lower = termo_original.lower()
-        texto_corrigido_lower = texto_corrigido.lower()
-        indice_busca = 0 # Começa a buscar desde o início
-
-        # Loop para encontrar e substituir TODAS as ocorrências do termo
-        while True:
-            # Tenta encontrar a próxima ocorrência do termo (ignorando capitalização)
-            indice_encontrado = texto_corrigido_lower.find(termo_original_lower, indice_busca)
-
-            if indice_encontrado == -1:
-                # Termo não encontrado (ou não há mais ocorrências), sai do loop
-                break
-
-            # Se encontrou, calculamos o fim da ocorrência no texto original e no texto corrigido
-            fim_encontrado = indice_encontrado + len(termo_original_lower)
-
-            # Agora, substituímos a parte encontrada no texto_corrigido (mantendo a capitalização original do texto *encontrado*)
-            # pela versão ORIGINAL do termo da nossa lista (restaurando a capitalização correta)
-            # Isso é um pouco delicado pra garantir que não estraga o texto ao redor
-            # Uma forma mais segura é reconstruir a string: parte antes + termo original + parte depois
-
-            texto_corrigido =   (texto_corrigido[:indice_encontrado] +
-                                termo_original + # <-- Substitui pela capitalização CORRETA da lista!
-                                texto_corrigido[fim_encontrado:])
-
-            # Atualiza o texto_corrigido_lower e o indice_busca para continuar procurando DEPOIS da substituição
-            # Precisamos recalcular o lower do texto_corrigido pois ele mudou
-            texto_corrigido_lower = texto_corrigido.lower()
-            indice_busca = indice_encontrado + len(termo_original) # Continua buscando após o termo substituído
-
-    return texto_corrigido # Retorna o texto com a capitalização corrigida
-
-
-def traduzir_string(texto, max_tentativas=5, delay_segundos=1): # <-- Adicione parâmetros para tentativas e delay
+def aplicar_protecao(texto_original, strings_exatas, regex_patterns):
     """
-    Tenta traduzir uma string usando googletrans, com lógica de retentativa em caso de erro.
+    Aplica regras de proteção (strings exatas e regex) a uma string.
+    Substitui padrões protegidos por placeholders únicos e retorna o texto modificado
+    e um mapa de placeholders para o conteúdo original.
     """
-    texto_para_traduzir = texto.strip() # Remover espaços em branco extras do início/fim
-    if not texto_para_traduzir: # Se a string estiver vazia ou só com espaços
-        return texto # Retorna o original vazio/com espaços se não há texto real
+    texto_processado = texto_original # Começa com o texto original
+    placeholders_map = {} # Dicionário para guardar {placeholder: texto_original_protegido}
+    placeholder_counter = 0 # Contador para gerar placeholders únicos
 
-    for tentativa in range(max_tentativas): # <-- Loop para retentar
+    # Prioridade 1: Proteger Strings Exatas
+    # Importante: Substituir strings exatas mais LONGAS primeiro para não pegar partes de strings mais curtas.
+    strings_exatas_ordenadas = sorted(strings_exatas, key=len, reverse=True)
+
+    for string_exata in strings_exatas_ordenadas:
+        # Precisamos ter cuidado para substituir SÓ a string exata e não quebrar o regex depois.
+        # Uma forma é usar re.escape() para tratar a string exata como um padrão literal,
+        # e usar word boundaries \b para garantir que casamos palavras inteiras se aplicável.
+        # No entanto, alguns dos nossos "strings exatas" (como /emphasis#) NÃO são palavras inteiras.
+        # Uma abordagem mais segura é usar uma função de substituição com re.sub que verifica
+        # se o match encontrado é EXATAMENTE a string exata.
+        # Para simplificar AGORA, vamos tentar uma substituição simples de string, mas
+        # ciente que isso pode ter limitações (ex: "Word" em "AnotherWord").
+        # Uma abordagem mais robusta para strings exatas que NÃO são palavras inteiras
+        # seria usar re.finditer para encontrar todas as ocorrências e substituir indexando.
+        # Vamos simplificar com substituição simples por enquanto, e refinar se der problema.
+
+        # Usar re.escape para tratar a string exata como padrão literal
+        padrao_string_exata = re.escape(string_exata)
+        # Opcional: adicionar \b para strings exatas que são palavras, mas difícil de automatizar
+        # Vamos usar o re.escape simples por enquanto
+
+        # re.sub com uma função de substituição para garantir que só casamos a string exata
+        # Esta é uma forma mais segura do que a substituição de string simples ou re.sub direto
+        def substituir_string_exata(match):
+            # match.group(0) é a string completa casada pelo padrão (que é a string_exata escapada)
+            # Geramos o placeholder
+            nonlocal placeholder_counter # Permite modificar a variável do escopo exterior
+            placeholder = f"__PROTECTED_{placeholder_counter}__"
+            placeholders_map[placeholder] = match.group(0) # Guarda a string original
+            placeholder_counter += 1
+            return placeholder
+
+        # O re.sub com a função vai encontrar todas as ocorrências do padrao_string_exata
+        # e rodar substituir_string_exata para cada uma.
+        texto_processado = re.sub(padrao_string_exata, substituir_string_exata, texto_processado)
+
+
+    # Prioridade 2: Proteger Padrões REGEX (nosso texto JÁ tem placeholders para strings exatas)
+    # Iterar sobre a lista de padrões REGEX na ordem definida.
+    for pattern_info in regex_patterns:
+        regex_name = pattern_info["name"]
+        regex_pattern = pattern_info["pattern"]
+
+        # Usar re.finditer para encontrar TODAS as ocorrências do padrão REGEX
+        # re.finditer é bom porque nos dá os spans (início e fim) de cada match
+        # Vamos encontrar os matches e substituí-los.
+        # É importante substituir do fim para o início para não invalidar os spans dos próximos matches,
+        # OU construir a nova string de forma diferente.
+        # Uma forma mais simples para garantir que não sobrepõe ou quebra placeholders já criados
+        # é usar re.sub com uma função que checa o que está sendo substituído.
+
+        # Usamos re.sub com uma função de substituição para gerar placeholders
+        def substituir_regex_match(match):
+            # match.group(0) é a string completa casada pelo padrão regex
+            # match.start() e match.end() são as posições no texto_processado ATUAL
+
+            # Geração de placeholder
+            nonlocal placeholder_counter
+            placeholder = f"__PROTECTED_{placeholder_counter}__"
+
+            # Armazenar no mapa (guardamos a string ORIGINAL que foi casada pelo regex)
+            placeholders_map[placeholder] = match.group(0)
+            placeholder_counter += 1
+
+            # Retornar o placeholder para substituir o match
+            return placeholder
+
+        # Aplicar o regex de substituição.
+        # A função substituir_regex_match será chamada para CADA match do regex_pattern
+        # no texto_processado atual.
+        texto_processado = re.sub(regex_pattern, substituir_regex_match, texto_processado)
+
+
+    # Retorna o texto com placeholders e o mapa para restaurar depois
+    return texto_processado, placeholders_map
+
+# --- CONFIGURAÇÃO DE ARQUIVOS ---
+
+# Caminhos para seus arquivos .txt (com conteúdo JSON)
+# Ajuste estes caminhos para onde você salvou os arquivos no seu PC
+# Usando caminhos relativos em vez de caminhos absolutos
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Diretório base do script atual
+CAMINHO_ARQUIVO_ORIGINAL_TXT = os.path.join(BASE_DIR, '../data/arquivos_originais_json/por.all_3FFFFFFFFFFFFFFF.string.json')  # Caminho relativo ao arquivo original
+CAMINHO_ARQUIVO_PROCESSADO_FASE1 = os.path.join(BASE_DIR, '../data/arquivo_traduzido_com_API/por.all_3FFFFFFFFFFFFFFF_FASE_1.string.json')  # Caminho relativo ao arquivo processado
+
+# --- FLUXO PRINCIPAL DO SCRIPT ---
+
+if __name__ == "__main__":
+    # Carregar os dados JSON do arquivo original
+    dados_json_original = carregar_json_do_txt(CAMINHO_ARQUIVO_ORIGINAL_TXT)
+
+    if dados_json_original and 'StringMap' in dados_json_original:
+        string_map = dados_json_original['StringMap']
+        total_entries = len(string_map)
+        print(f"Processando {total_entries} entradas para PROTEÇÃO...")
+
+        # Dicionário para armazenar todos os mapas de placeholders por string ID
+        # (Pode ser útil depois para debug ou para a fase de tradução)
+        # No entanto, para o fluxo direto, o mapa é retornado pela função por string.
+        # Vamos aplicar a proteção DIRETAMENTE no dicionário dados_json_original
+        # E armazenar os mapas de placeholder EM OUTRO LUGAR se necessário.
+        # Por enquanto, a função aplicar_protecao já retorna o mapa por string.
+        # Vamos modificar o loop para usar e guardar esse mapa.
+
+        # Armazenar todos os mapas de placeholders por key da string
+        all_placeholders_maps = {}
+
+        count = 0
+        # Iterar sobre cada entrada no StringMap
+        for key, value in string_map.items():
+            if 'String' in value and value['String'] is not None:
+                texto_original = value['String']
+
+                # Aplicar a proteção
+                texto_com_placeholders, placeholders_map_current = aplicar_protecao(
+                    texto_original,
+                    EXACT_STRINGS_TO_PROTECT,
+                    REGEX_PATTERNS_TO_PROTECT
+                )
+
+                # Atualizar a string no dicionário original com a versão com placeholders
+                dados_json_original['StringMap'][key]['String'] = texto_com_placeholders
+
+                # Armazenar o mapa de placeholders para esta string (pode ser útil depois)
+                # all_placeholders_maps[key] = placeholders_map_current # Opcional: guardar todos os mapas
+
+                count += 1
+                if count % 1000 == 0: # Imprimir progresso a cada X strings
+                    print(f"Proteção aplicada a {count}/{total_entries} strings...")
+
+        print(f"Fase de PROTEÇÃO concluída para {count} strings.")
+
+        # Salvar o resultado da Fase 1 (JSON com placeholders)
+        # Garante que o diretório de saída existe
+        diretorio_saida = os.path.dirname(CAMINHO_ARQUIVO_PROCESSADO_FASE1)
+        if diretorio_saida and not os.path.exists(diretorio_saida):
+            os.makedirs(diretorio_saida)
+
         try:
-            # Tenta traduzir. A API da googletrans é meio instável, pode falhar.
-            resultado_traducao_obj = translator.translate(texto_para_traduzir, dest='pt')
-
-            if resultado_traducao_obj is not None and resultado_traducao_obj.text is not None:
-                 texto_traduzido = resultado_traducao_obj.text.strip() # Remover espaços extras na tradução também
-                 if texto_traduzido: # Verificar se a tradução não ficou vazia depois de remover espaços
-                     return texto_traduzido # <-- Tradução OK, retorna o resultado
-                 else:
-                      # A API retornou um objeto, mas o texto traduzido está vazio/só espaços.
-                      print(f"API retornou texto vazio para '{texto_para_traduzir}'. Tentativa {tentativa + 1}/{max_tentativas}. Retentando...")
-                      # Continua para a próxima tentativa
-            else:
-                 # A API retornou None, ou o .text é None
-                 print(f"API retornou None para '{texto_para_traduzir}'. Tentativa {tentativa + 1}/{max_tentativas}. Retentando...")
-                 # Continua para a próxima tentativa
-
+            with open(CAMINHO_ARQUIVO_PROCESSADO_FASE1, 'w', encoding='utf-8') as f_out:
+                json.dump(dados_json_original, f_out, indent=4, ensure_ascii=False)
+            print(f"Resultado da Fase 1 (JSON com placeholders) salvo em: {CAMINHO_ARQUIVO_PROCESSADO_FASE1}")
         except Exception as e:
-            # Ocorreu um erro (conexão, etc.)
-            print(f"Erro ao traduzir '{texto_para_traduzir}' (Tentativa {tentativa + 1}/{max_tentativas}): {e}")
-            if tentativa < max_tentativas - 1: # Se ainda há tentativas restantes...
-                print(f"Aguardando {delay_segundos} segundos antes de retentar...")
-                time.sleep(delay_segundos) # <-- Espera um pouco antes de tentar de novo
-            # Continua para a próxima tentativa do loop for
-
-    # Se o loop de tentativas terminou sem sucesso
-    print(f"Falha na tradução após {max_tentativas} tentativas para '{texto_para_traduzir}'. Retornando texto original.")
-    return texto # <-- Retorna o texto original se falhou em todas as tentativas
-
-try:
-    with open(nome_arquivo_entrada, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-
-    if 'StringMap' in data:
-        string_map = data['StringMap']
-        print("Arquivo JSON carregado e 'StringMap' encontrado!")
-
-    for key, value in string_map.items():
-            if 'String' in value: # <-- Primeiro check: Este item tem a chave 'String'?
-                texto_original = value['String'] # <-- Pega o texto original (este está no lugar certo)
-
-                termos_originais_para_preservar = {}
-
-                for termo_base in termos_capitalizacao_original: # <-- Pega os termos originais para preservar
-                    termo_base_lower = termo_base.lower() # Termo base em lowercase
-                    texto_original_lower = texto_original.lower() # Texto original em lowercase
-                    indice_busca = 0 # Começa a buscar desde o início
-
-                    while True:
-                        indice_encontrado = texto_original_lower.find(termo_base_lower, indice_busca) # Tenta encontrar a próxima ocorrência
-                        if indice_encontrado == -1: # Termo nao encontrado (ou nao ha mais ocorrencias), sai do loop
-                            break
-                        
-                        fim_encontrado = indice_encontrado + len(termo_base_lower) # Calcula o fim da ocorrência no texto original
-                        ocorrencia_exata_original = texto_original[indice_encontrado : fim_encontrado] # Pega a ocorrência exata no texto original
-                        # Armazena no dicionário: a versão lowercase como chave, a versão EXATA original como valor
-                        # Se já existir (por exemplo, se "missilecollidepower" e "missileCollidePower"
-                        # em lowercase são iguais), a gente só armazena a primeira encontrada,
-                        # ou a última, dependendo de como queremos lidar com MÚLTIPLAS variações no ORIGINAL.
-                        # Para simplificar AGORA, vamos só garantir que a versão lowercase
-                        # aponta para a capitalização EXATA que encontramos PRIMEIRO no original.
-                        if termo_base_lower not in termos_originais_para_preservar:
-                            termos_originais_para_preservar[termo_base_lower] = ocorrencia_exata_original
-
-                            indice_busca = fim_encontrado # Pula para o fim da ocorrência encontrada
-                    
-                    
+            print(f"Erro ao salvar o arquivo da Fase 1: {e}")
 
 
-                # === BLOCO DE EXCLUSÃO COMENTADO (OK PARA O TESTE) ===
-                # Esta é a lógica original para excluir textos que contêm termos da lista nao_traduzir.txt.
-                # Mantemos ele comentado por enquanto para testar as correções de formatacao/capitalizacao.
-                # manter_original = False
-                # for termo in termos_nao_traduzir:
-                #     if termo in texto_original: # <-- Esta é a linha do filtro agressivo
-                #         manter_original = True
-                #         break # Se encontramos um termo, podemos parar de verificar para esta linha
-                # === FIM DO BLOCO COMENTADO ===
-
-                # === NOVO BLOCO SIMPLIFICADO PARA O TESTE ===
-                # ESTE bloco SUBSTITUI o if manter_original: e o elif/else original
-                # Ele está no MESMO NÍVEL de indentação que o bloco de exclusão COMENTADO estava
-                # E ESTÁ DENTRO DO if 'String' in value: E DENTRO DO LOOP FOR!
-
-                if any(char.isalpha() for char in texto_original): # Se o texto original (que tem a chave 'String') tiver letras...
-                    texto_traduzido = traduzir_string(texto_original) # <-- CHAMA A FUNÇÃO DE TRADUÇÃO BLINDADA!
-                    texto_traduzido_corrigido = corrigir_capitalizacao(texto_traduzido, termos_capitalizacao_original)
-
-                    texto_final_com_capitalizacao_preservada = aplicar_capitalizacao_original_preservada(texto_traduzido_corrigido, termos_originais_para_preservar)
-
-                    time.sleep(0.3) #Pequena pausa para nao sobrecarregar a API
-
-                    value['String'] = texto_final_com_capitalizacao_preservada # Atualiza o valor no dicionário 'data' com a tradução (ou original se a API falhou/retornou None)
-                    # Imprime a mensagem de Original e Traduzido (se a função não retornou erro ou None)
-                    print(f"ID: {key}, Original: {texto_original[:70]}..., Traduzido: {texto_final_com_capitalizacao_preservada[:50]}...")
-                else: # Se não tiver letras (como "..." ou "$%$%" ou só números), pula a tradução para este item
-                    print(f"ID: {key}, Texto parece nao conter letras para traduzir: {texto_original}")
-                # === FIM DO NOVO BLOCO ===
-
-            # Se 'String' não estiver em value, este item é pulado (lógica original do script continua funcionando)
-
-
-    # Salvar o arquivo JSON traduzido (você pode mudar o nome se quiser)
-    nome_arquivo_traduzido = 'data/arquivo_traduzido_com_api/seu_arquivo_traduzido_Vx.json'
-    with open(nome_arquivo_traduzido, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
-
-    print(f"\nArquivo traduzido salvo como '{nome_arquivo_traduzido}'")
-
-except FileNotFoundError:
-    print(f"Erro: Arquivo '{nome_arquivo_entrada}' não encontrado.")
-except json.JSONDecodeError:
-    print(f"Erro: Falha ao decodificar o arquivo JSON. Verifique se o formato está correto.")
-except Exception as e:
-    print(f"Ocorreu um erro inesperado: {e}")
+    else:
+        print("Não foi possível carregar os dados JSON ou 'StringMap' não encontrado.")
