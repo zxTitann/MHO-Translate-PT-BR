@@ -169,7 +169,7 @@ def aplicar_protecao(texto_original, strings_exatas, regex_patterns):
 # Usando caminhos relativos em vez de caminhos absolutos
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Diretório base do script atual
 CAMINHO_ARQUIVO_ORIGINAL_TXT = os.path.join(BASE_DIR, '../data/arquivos_originais_json/por.all_3FFFFFFFFFFFFFFF.string.json')  # Caminho relativo ao arquivo original
-CAMINHO_ARQUIVO_PROCESSADO_FASE1 = os.path.join(BASE_DIR, '../data/arquivo_traduzido_com_API/por.all_3FFFFFFFFFFFFFFF_FASE_1.string.json')  # Caminho relativo ao arquivo processado
+CAMINHO_ARQUIVO_PROCESSADO_FASE1 = os.path.join(BASE_DIR, '../data/arquivo_traduzido_com_API/FASE_1/por.all_3FFFFFFFFFFFFFFF_FASE_1.string.json')  # Caminho relativo ao arquivo processado
 
 # --- FLUXO PRINCIPAL DO SCRIPT ---
 
