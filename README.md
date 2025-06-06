@@ -6,7 +6,7 @@ O *MHO-Translate-PT-BR* é uma solução avançada de localização desenvolvida
 
 ## Requisitos
 
-- Python 3.11 (Site oficial: https://www.python.org/)
+- Python 3.9.11 (Site oficial: https://www.python.org/)
 - Biblioteca `googletrans==4.0.0-rc1` (utilize `pip install googletrans==4.0.0-rc1`)
 
 ## Como Usar.
